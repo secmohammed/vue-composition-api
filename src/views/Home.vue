@@ -1,34 +1,22 @@
 <template>
     <div>
-        {{name}} {{ password }} {{number}}
-
+        {{ number }}
+        <a href="#" @click.prevent="increment"> Increment </a>
     </div>
 </template>
 
 <script>
 import { reactive, toRefs, ref } from '@vue/composition-api'
-
+import useNumbers from './number'
 export default {
     setup() {
-        // // to create a reactive property, based on its type.
-        // ref takes any primitive datatype.
-        // to access value of ref and change its value, we have to use the ref.value
-        // reactive accepts object.
-        const state = reactive({
-                name: 'alex',
-               password: 'password'
-        })
-        const number = ref(0)
-        setTimeout(() => {
-            state.name = 'Billy'
-            number.value++
-        }, 2000)
-        console.log(state, toRefs(state))
-        // when destructuring the reactive, primitive datatypes lose its reactivity.
-        return {
-            ...toRefs(state),
-            number
-        }
+      const number = ref(0)
+      const { increment, decrement } = useNumbers(number)
+      return {
+        number,
+        increment,
+        decrement
+      }
     }
 };
 </script>
