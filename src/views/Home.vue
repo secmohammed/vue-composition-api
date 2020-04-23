@@ -1,22 +1,33 @@
 <template>
     <div>
-        {{ number }}
-        <a href="#" @click.prevent="increment"> Increment </a>
+        <div v-for="user in users" :key="user.id">
+            {{user.name}}
+        </div>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs, ref } from '@vue/composition-api'
-import useNumbers from './number'
+import { toRefs, onMounted, reactive, onUpdated } from '@vue/composition-api'
 export default {
     setup() {
-      const number = ref(0)
-      const { increment, decrement } = useNumbers(number)
-      return {
-        number,
-        increment,
-        decrement
-      }
+        const state = reactive({
+            users: []
+        })
+        const getUsers = () => {
+            state.users = [
+                {id: 1, name: 'Mohammed'},
+                {id: 2, name: 'Ahmed'}
+            ]
+        }
+        onUpdated(() => {
+            console.log('updated')
+        })
+        onMounted(() => {
+            getUsers()
+        })
+        return {
+            ...toRefs(state)
+        }
     }
 };
 </script>
