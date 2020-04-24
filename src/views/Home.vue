@@ -1,26 +1,22 @@
 <template>
     <div>
-        {{ nameShouting }}        
+        <input type="password" v-model="form.password" />
+        {{ passwordStrength }}
     </div>
 </template>
 
 <script>
 import { ref, computed, reactive, toRefs } from '@vue/composition-api'
+import { usePasswordStrength } from './password'
 export default {
     setup() {
-        // const name = ref("Mohammed")
         const state = reactive({
-            name: "Mohammed",
-            nameShouting: computed(() => state.name.toUpperCase())
+            form: {
+                password: ''
+            },
+            passwordStrength: computed(() => usePasswordStrength(state.form.password))
         })
-        // const nameShouting = computed(() => name.value.toUpperCase())
-        setTimeout(() => {
-            state.name = "Ahmed"
-        }, 2000)
         return toRefs(state)
-        // return {
-        //     // nameShouting
-        // }
     }
 };
 </script>

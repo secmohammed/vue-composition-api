@@ -1,0 +1,1 @@
+export const usePasswordStrength = (password: string) => password.length > 8 ? "Strong": "Weak"
