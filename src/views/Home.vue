@@ -1,23 +1,41 @@
 <template>
     <div>
-        {{ zipUpperCase }}
-        <input type="text" v-model="zipUpperCase">
+        <User v-for="user in users" :user="user" :key="user.id" />
     </div>
 </template>
 
 <script>
-import { ref, computed, reactive, toRefs } from '@vue/composition-api'
-import { usePasswordStrength } from './password'
+import { ref, computed, reactive, toRefs } from "@vue/composition-api";
+import { usePasswordStrength } from "./password";
+import User from "./User";
 export default {
+    components: {
+        User,
+    },
     setup() {
-        const zip = ref('')
-        const zipUpperCase = computed({
-            get: () => zip.value.toUpperCase(),
-            set: value => zip.value = value.toUpperCase()
-        })
+        const users = ref([
+            {
+                name: "Mohammed",
+                id: 1,
+                points: 10,
+            },
+            {
+                name: "Ahmed",
+                id: 2,
+                points: 20,
+            },
+        ]);
+        setTimeout(() => {
+            users.value = users.value.map((user) => {
+                if (user.id == 1) {
+                    user.points = 1000;
+                }
+                return user;
+            });
+        }, 2000);
         return {
-            zipUpperCase
-        }
-    }
+            users,
+        };
+    },
 };
 </script>
