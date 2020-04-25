@@ -1,7 +1,7 @@
 <template>
     <div>
-        <input type="password" v-model="form.password" />
-        {{ passwordStrength }}
+        {{ zipUpperCase }}
+        <input type="text" v-model="zipUpperCase">
     </div>
 </template>
 
@@ -10,13 +10,14 @@ import { ref, computed, reactive, toRefs } from '@vue/composition-api'
 import { usePasswordStrength } from './password'
 export default {
     setup() {
-        const state = reactive({
-            form: {
-                password: ''
-            },
-            passwordStrength: computed(() => usePasswordStrength(state.form.password))
+        const zip = ref('')
+        const zipUpperCase = computed({
+            get: () => zip.value.toUpperCase(),
+            set: value => zip.value = value.toUpperCase()
         })
-        return toRefs(state)
+        return {
+            zipUpperCase
+        }
     }
 };
 </script>
