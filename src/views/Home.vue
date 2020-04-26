@@ -9,6 +9,7 @@ import { ref, computed, reactive, toRefs } from "@vue/composition-api";
 import { usePasswordStrength } from "./password";
 import User from "./User";
 export default {
+    name: "Home",
     components: {
         User,
     },
