@@ -1,42 +1,35 @@
 <template>
-    <div>
-        <User v-for="user in users" :user="user" :key="user.id" />
-    </div>
+    <div>{{ number }}</div>
 </template>
 
 <script>
-import { ref, computed, reactive, toRefs } from "@vue/composition-api";
-import { usePasswordStrength } from "./password";
-import User from "./User";
+import { ref, watch, reactive, toRefs } from "@vue/composition-api";
 export default {
     name: "Home",
-    components: {
-        User,
-    },
     setup() {
-        const users = ref([
-            {
-                name: "Mohammed",
-                id: 1,
-                points: 10,
+        // const number = ref(0);
+        // setInterval(() => {
+        //     number.value++;
+        // }, 1000);
+        // watch(number, (number, previous) => {
+        //     console.log("changed", number, previous);
+        // });
+        const state = reactive({
+            number: 0,
+        });
+        setInterval(() => {
+            state.number++;
+        }, 1000);
+        // to watch on reactive state, we have to use function
+        watch(
+            () => state,
+            (state) => {
+                console.log(state.number);
             },
-            {
-                name: "Ahmed",
-                id: 2,
-                points: 20,
-            },
-        ]);
-        setTimeout(() => {
-            users.value = users.value.map((user) => {
-                if (user.id == 1) {
-                    user.points = 1000;
-                }
-                return user;
-            });
-        }, 2000);
-        return {
-            users,
-        };
+            { deep: true }
+        );
+
+        return toRefs(state);
     },
 };
 </script>
