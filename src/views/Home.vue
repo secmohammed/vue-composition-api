@@ -1,26 +1,19 @@
 <template>
     <div>
-        <a href="" @click.prevent="download">
-            Download
-        </a>
+        {{ counter }} <a href="" @click.prevent="increment(1)">increment</a>
     </div>
 </template>
 
 <script>
+import { computed } from '@vue/composition-api'
 export default {
     name: "home",
-    setup(props, { root }) {
-        const user = {
-            pro: false
+    setup(props, {root: {$store} }) {
+        const counter = computed(() => $store.getters.counter)
+        function increment(increment) {
+            $store.dispatch('incrementCounter', increment)
         }
-        function download() {
-            if(!user.pro) {
-                root.$router.replace({name: 'pro'})
-                return
-            }
-            console.log('download')
-        }
-        return { download}
+        return { counter, increment}
     }
 };
 </script>
