@@ -1,19 +1,21 @@
 <template>
     <div>
-        {{ counter }} <a href="" @click.prevent="increment(1)">increment</a>
+         {{ counter}} <a href="#" @click.prevent="incrementCounter(1)">Increment</a>
     </div>
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
+import { useGetters, useActions } from 'vuex-composition-helpers'
 export default {
     name: "home",
-    setup(props, {root: {$store} }) {
-        const counter = computed(() => $store.getters.counter)
-        function increment(increment) {
-            $store.dispatch('incrementCounter', increment)
-        }
-        return { counter, increment}
+    setup(_, {root}) {
+        const { counter } = useGetters({
+            counter: 'counter'
+        })
+        const {incrementCounter }= useActions({
+            incrementCounter: 'incrementCounter'
+        })
+        return { counter, incrementCounter }
     }
 };
 </script>
